@@ -27,11 +27,11 @@ subst x s t =
 step :: Tm -> Tm
 step t = case t of
   Tm_App (Tm_Abs x ty2 t1) t2 -> if (value t2) then (subst x t2 t1) else t
-  Tm_App t1 t2 -> if (value t1)
+  Tm_App t1 t2                -> if (value t1)
     then (if (value t2) then t else Tm_App t1 (step t2))
     else Tm_App (step t1) t2
-  Tm_if Tm_True t1 t2 -> t1
-  Tm_if Tm_False t1 t2 -> t2
-  Tm_if t1 t2 t3 -> Tm_if (step t1) t2 t3
+  Tm_if Tm_True t1 t2         -> t1
+  Tm_if Tm_False t1 t2        -> t2
+  Tm_if t1 t2 t3              -> Tm_if (step t1) t2 t3
 
 -- step (Tm_App (Tm_Abs "x" (Ty_Arrow Ty_Bool Ty_Bool) (Tm_Var "x")) (Tm_Abs "x" Ty_Bool (Tm_Var "x")))
